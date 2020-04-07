@@ -7,5 +7,6 @@ spring boot 实践学习案例
         <module>springboot-helloworld</module>
         <module>springboot-knife4j</module>
         <module>springboot-mybatis-plus</module>
+        <module>springboot-druid</module>
     </modules>
 ```
