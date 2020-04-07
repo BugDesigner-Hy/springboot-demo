@@ -13,6 +13,7 @@
         <module>springboot-helloworld</module>
         <module>springboot-knife4j</module>
         <module>springboot-mybatis-plus</module>
+        <module>springboot-druid</module>
     </modules>
 
     <properties>
