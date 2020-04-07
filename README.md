@@ -1,5 +1,5 @@
 # springboot-demo
-springboot以及集成周边插件的使用demo
+spring boot 实践学习案例
 
 目前已有的模块有
 ```xml
