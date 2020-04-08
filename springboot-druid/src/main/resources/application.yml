@@ -9,48 +9,65 @@ spring:
     username: root
     password: root
     druid:
-      #      初始化连接数  一般10-50
+      # 初始化连接数  一般10-50
       initial-size: 1
-      #      最大连接数
+      # 最大连接数
       max-active: 50
-      #      最小连接数
+      # 最小连接数
       min-idle: 1
-      #      程序向连接池中请求连接时,超过maxWait的值后，认为本次请求失败，即连接池
-      #      没有可用连接，单位毫秒，设置-1时表示无限等待
+      # 程序向连接池中请求连接时,超过maxWait的值后，认为本次请求失败，即连接池
+      # 没有可用连接，单位毫秒，设置-1时表示无限等待
       max-wait: 1000
-      #    当程序请求连接，池在分配连接时，是否先检查该连接是否有效。
+      # 当程序请求连接，池在分配连接时，是否先检查该连接是否有效。
       test-while-idle: true
-      #      配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 2000
-      #      配置一个连接在池中最小生存的时间，单位是毫秒
+      # 配置一个连接在池中最小/最大生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 600000
       max-evictable-idle-time-millis: 900000
-      #      检查池中的连接是否仍可用的 SQL 语句,drui会连接到数据库执行该SQL, 如果
-      #      正常返回，则表示连接可用，否则表示连接不可用
+      # 检查池中的连接是否仍可用的 SQL 语句,drui会连接到数据库执行该SQL, 如果
+      # 正常返回，则表示连接可用，否则表示连接不可用
       validation-query: select 1
-      #      程序没有close连接且空闲时长超过 minEvictableIdleTimeMillis,则会执
-      #      行validationQuery指定的SQL,以保证该程序连接不会被池kill掉
+      # 程序没有close连接且空闲时长超过 minEvictableIdleTimeMillis,则会执
+      # 行validationQuery指定的SQL,以保证该程序连接不会被池kill掉
       keep-alive: true
       filter:
-        #      监控统计用的filter:stat
-        #      打印sql 设置慢sql的时间（行时间超过slowSqlMillis的就是慢sql）
+        # 监控统计用的filter:stat
         stat:
+          # 打印sql
           log-slow-sql: true
+          # 设置慢sql的时间（行时间超过slowSqlMillis的就是慢sql）
           slow-sql-millis: 5000
-          #      日志用的filter:log4j log4j2 slf4j
+        # 日志用的filter:log4j log4j2 slf4j
         log4j2:
           enabled: true
-          #         能够将重复SQL合并为一个SQL
+          # 能够将重复SQL合并为一个SQL
           merge-sql: true
           statement-create-after-log-enabled: false
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
           result-set-close-after-log-enabled: false
-          #      防御sql注入的filter:wall
+        # 防御sql注入的filter:wall
         wall:
           enabled: true
-      #          合并多个DruidDataSource的监控数据
+      # 合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
+      # 配置监控服务器
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+        reset-enable: false
+        url-pattern: /druid/*
+        # 添加IP白名单
+        allow: "192.168.25.125,127.0.0.1"
+        # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+        deny: "192.168.25.123"
+      web-stat-filter:
+        # 添加过滤规则
+        url-pattern: /*
+        # 忽略过滤格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
 
 
 

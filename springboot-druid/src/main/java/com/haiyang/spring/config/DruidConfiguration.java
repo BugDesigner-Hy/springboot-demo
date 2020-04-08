@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author: Administrator
  * @Date: 2020/4/7 15:00
- * @Description:
+ * @Description: 这里的配置也可在application.yml中进行配置
  */
 @Configuration
 public class DruidConfiguration {
