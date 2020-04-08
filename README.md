@@ -8,5 +8,6 @@ spring boot 实践学习案例
         <module>springboot-knife4j</module>
         <module>springboot-mybatis-plus</module>
         <module>springboot-druid</module>
+        <module>springboot-security</module>
     </modules>
 ```
