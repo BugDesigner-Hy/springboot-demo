@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: a19e4c23358edc0d85c4
+            client-secret: 553f2caf5c73bb2942e04324bf01b486d4a60968
+            client-name: github
+            authorization-grant-type: authorization_code
+#            authorization-uri: https://github.com/login/oauth/authorize
+#            redirect-uri:  http://localhost:8080/oauth2/callback
+#            token-uri: https://github.com/login/oauth/access_token
+
