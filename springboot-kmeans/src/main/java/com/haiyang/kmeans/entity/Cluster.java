@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -23,13 +24,16 @@ public class Cluster implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    private Integer id;
+    @TableId
+    private Long id;
 
     private Double x;
 
     private Double y;
 
-    private Integer pointId;
+    private int pointId;
+
+    private int k;
 
     @TableField(exist = false)
     private Point clusterPoint;
