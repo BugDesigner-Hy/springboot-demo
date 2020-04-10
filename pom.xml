@@ -16,6 +16,7 @@
         <module>springboot-druid</module>
         <module>springboot-security</module>
         <module>springboot-oauth</module>
+        <module>springboot-kmeans</module>
     </modules>
 
     <properties>
