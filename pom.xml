@@ -15,6 +15,7 @@
         <module>springboot-mybatis-plus</module>
         <module>springboot-druid</module>
         <module>springboot-security</module>
+        <module>springboot-oauth</module>
     </modules>
 
     <properties>

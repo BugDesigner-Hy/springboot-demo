@@ -39,6 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .accessDeniedHandler(new CustomAccessDeniedHandler())//自定义访问拒绝处理器
                 )
                 .authorizeRequests(req -> req
+                        .antMatchers("/captcha/**").permitAll()
                         .antMatchers("/private").hasAnyRole("USER")
                         .anyRequest().authenticated()
 

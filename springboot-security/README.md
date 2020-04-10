@@ -19,3 +19,4 @@
 
 6.测试 `SpringbootSecurityApplicationTests`
 
+7.添加验证码校验 详见`LoginController`和官网https://gitee.com/whvse/EasyCaptcha
