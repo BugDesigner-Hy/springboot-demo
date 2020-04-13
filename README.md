@@ -16,5 +16,7 @@ spring boot 实践学习案例
         <module>springboot-security</module>
         <!--OAuth2第三方登录-->
         <module>springboot-oauth</module>
+        <!--java实现K-Means聚合算法-->
+        <module>springboot-kmeans</module>
     </modules>
 ```
