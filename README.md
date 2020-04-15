@@ -18,5 +18,7 @@ spring boot 实践学习案例
         <module>springboot-oauth</module>
         <!--java实现K-Means聚合算法-->
         <module>springboot-kmeans</module>
+        <!--hutool工具包使用-->
+        <module>springboot-hutool</module>
     </modules>
 ```

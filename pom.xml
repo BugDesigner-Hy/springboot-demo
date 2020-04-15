@@ -17,6 +17,7 @@
         <module>springboot-security</module>
         <module>springboot-oauth</module>
         <module>springboot-kmeans</module>
+        <module>springboot-hutool</module>
     </modules>
 
     <properties>

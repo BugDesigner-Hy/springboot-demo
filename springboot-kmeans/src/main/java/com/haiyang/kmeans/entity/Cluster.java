@@ -41,5 +41,8 @@ public class Cluster implements Serializable {
     @TableField(exist = false)
     private List<Point> data;
 
+    @TableField(exist = false)
+    private Double distortions;
+
 
 }

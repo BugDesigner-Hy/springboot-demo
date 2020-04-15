@@ -3,6 +3,7 @@ package com.haiyang.kmeans.controller;/**
  * @Date: 2020/4/10 14:37
  */
 
+import cn.hutool.core.util.NumberUtil;
 import com.haiyang.kmeans.entity.Cluster;
 import com.haiyang.kmeans.entity.Point;
 import com.haiyang.kmeans.mapper.PointMapper;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -34,17 +36,15 @@ public class DataController {
     PointMapper pointMapper;
 
     @GetMapping("/kmeans/{k}")
-    public Set<Cluster> kmeans(@PathVariable("k") int k) {
+    public Boolean kmeans(@PathVariable("k") int k) {
 
         List<Point> data = pointMapper.selectList(null);
-        log.info("=================K-means start====================");
-        //  初始化簇的数目K 选出K个中心点
-        kmeansService.init(k, data, false);
-        kmeansService.run();
-        int count = kmeansService.getCountIteration().intValue();
-        log.info("迭代次数：{}", count);
-        log.info("=============K-means finish=======================");
-        return kmeansService.getClusters();
+        kmeansService.kmeans(k, data, false);
+        return Boolean.TRUE;
+    }
 
+    @GetMapping("/clusters")
+    public Set<Cluster> getClusters(){
+        return kmeansService.getClusters();
     }
 }

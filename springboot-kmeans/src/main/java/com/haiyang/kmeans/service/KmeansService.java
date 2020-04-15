@@ -15,6 +15,8 @@ public interface KmeansService {
 
     boolean run();
 
+    void kmeans(int k, List<Point> data, boolean save2db);
+
     boolean iteration();
 
     boolean saveCluster2db();
@@ -43,9 +45,13 @@ public interface KmeansService {
 
     void setClusterPoints(List<Point> clusterPoints);
 
-    Set<Cluster> genClusters(List<Point> clusterPoint);
+    Set<Cluster> genClusters();
 
 //    boolean checkClusterPoint(List<Point> pl1,List<Point> pl2);
+
+    Double getDistortions();
+
+
 
 
 
