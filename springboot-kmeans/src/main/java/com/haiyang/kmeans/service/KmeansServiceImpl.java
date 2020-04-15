@@ -9,14 +9,15 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.haiyang.kmeans.entity.Cluster;
+import com.haiyang.kmeans.entity.Distortion;
 import com.haiyang.kmeans.entity.Point;
 import com.haiyang.kmeans.mapper.ClusterMapper;
+import com.haiyang.kmeans.mapper.DistortionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,6 +34,9 @@ public class KmeansServiceImpl implements KmeansService {
 
     @Resource
     ClusterMapper clusterMapper;
+
+    @Resource
+    DistortionMapper distortionMapper;
 
     //数据簇数量
     private int k;
@@ -62,6 +66,7 @@ public class KmeansServiceImpl implements KmeansService {
 
     //畸变程度
     private Double distortions = Double.MAX_VALUE;
+
     //记录上一条畸变
     private Double lastDistortions = 0D;
 
@@ -72,8 +77,7 @@ public class KmeansServiceImpl implements KmeansService {
      * @param k
      * @param data
      */
-    @Override
-    public void init(int k, List<Point> data) {
+    private void init(int k, List<Point> data) {
         this.k = k;
         this.clusters = null;
         this.curCluster = null;
@@ -84,59 +88,31 @@ public class KmeansServiceImpl implements KmeansService {
         this.countIteration = new AtomicInteger(0);
         for (int i = 0; i < this.k; i++) {
             int randomIndex;
-            if(data.size()==0){
-                randomIndex = 0;
-            }else{
-                randomIndex = RandomUtil.randomInt(0, data.size() - 1);
-            }
+//            if(data.size()==0){
+//                randomIndex = 0;
+//            }else{
+//                randomIndex = RandomUtil.randomInt(0, data.size() - 1);
+//            }
+            randomIndex = RandomUtil.randomInt(0, data.size() - 1);
             clusterPoints.add(data.get(randomIndex));
-            data.remove(data.get(randomIndex));
+//            data.remove(data.get(randomIndex));
         }
         this.init = true;
     }
 
-    @Override
-    public void init(int k, List<Point> data, boolean save2db) {
+    private void init(int k, List<Point> data, boolean save2db) {
         init(k, data);
         this.save2db = save2db;
     }
 
-    @Override
-    public void init(int k, List<Point> data, List<Point> clusterPoints) {
+    private void init(int k, List<Point> data, List<Point> clusterPoints) {
         init(k, data);
         this.clusterPoints = clonePointList(clusterPoints);
     }
 
-    @Override
-    public void init(int k, List<Point> data, List<Point> clusterPoints, boolean save2db) {
+    private void init(int k, List<Point> data, List<Point> clusterPoints, boolean save2db) {
         init(k, data, clusterPoints);
         this.save2db = save2db;
-    }
-
-    /**
-     * 实现point对象列表的深拷贝
-     *
-     * @param data
-     * @return
-     */
-    private List<Point> clonePointList(List<Point> data) {
-        List<Point> res = new ArrayList<>();
-        data.forEach(point -> {
-            try {
-                res.add(point.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        });
-        return res;
-    }
-
-    private Set<Cluster> cloneClusterSet(Set<Cluster> clusters) {
-        Set<Cluster> var1 = new HashSet<Cluster>(0);
-        clusters.forEach(cluster -> {
-            var1.add(ObjectUtil.clone(cluster));
-        });
-        return var1;
     }
 
     /**
@@ -145,8 +121,7 @@ public class KmeansServiceImpl implements KmeansService {
      * @param
      * @return
      */
-    @Override
-    public Set<Cluster> genClusters() {
+    private Set<Cluster> genClusters() {
         Set<Cluster> initclusters = new HashSet<Cluster>(1);
         List<Point> var1;
         var1 = clonePointList(this.clusterPoints);
@@ -191,8 +166,7 @@ public class KmeansServiceImpl implements KmeansService {
      *
      * @return
      */
-    @Override
-    public List<Point> genNewClusterPoint() {
+    private List<Point> genNewClusterPoint() {
 //        log.info("ClusterPoint-before:{}", this.clusterPoints);
         List<Point> points = new ArrayList<>();
         this.clusters.forEach(cluster -> {
@@ -207,22 +181,15 @@ public class KmeansServiceImpl implements KmeansService {
         });
         this.clusterPoints = clonePointList(points);
 //        log.info("ClusterPoint-after:{}", this.clusterPoints);
-        //this.clusterPoints.containsAll(points)
-//        if () {
-//            this.iteration = false;
-//        } else {
-//            this.clusterPoints = clonePointList(points);
-//        }
         return points;
     }
 
     /**
-     * 算法匹配
+     * 内部自适应
      *
      * @return
      */
-    @Override
-    public boolean run() {
+    private boolean fit() {
         do {
             // 计算每个点到中心点的距离 将点划分到簇
             genClusters();
@@ -233,19 +200,56 @@ public class KmeansServiceImpl implements KmeansService {
         } while (iteration());
         // 重复上述步骤 直到中心点不再变化
 
-        //将簇数据集入库
-        if (this.save2db) {
-            saveCluster2db();
-        }
         return true;
     }
 
+    @Async
     @Override
-    public boolean iteration() {
+    public void kmeans(int k, List<Point> data, boolean save2db) {
+        log.info("=================K-means start====================");
+        Double min = Double.MAX_VALUE;
+        //允许畸变误差范围
+        final Double DELTA = 10D;
+        boolean canIterator = true;
+        AtomicInteger count = new AtomicInteger();
+        Set<Cluster> clusters = new HashSet<>();
+        while (canIterator) {
+            //初始化
+            init(k, data, false);
+            //开始执行内部自适应聚类
+            fit();
+            //暂存结果
+            clusters = getClusters();
+            //内部迭代次数
+            int var1 = getCountIteration().intValue();
+            count.incrementAndGet();
+            //畸变程度
+            Double distortions = getDistortions();
+            if (Math.abs(distortions.doubleValue() - min.doubleValue()) < DELTA) {
+                this.clusters = clusters;
+                canIterator = false;
+                continue;
+            }
+            if (distortions.doubleValue() < min) {
+                min = distortions;
+                clusters = cloneClusterSet(this.clusters);
+            }
+            log.info("K值：{} 迭代次数：{} 畸变程度:{}", k, var1, distortions);
+        }
+        //将簇数据集入库
+        saveCluster2db();
+        saveDistortion(new Distortion(k, count.intValue(), min));
+//        log.info("best-cluster:{}", clusters);
+        log.info(">>>>>值：{} 迭代次数：{} 最小畸变:{}<<<<<", k, count, min);
+        log.info("=============K-means finish=======================");
+    }
+
+    private boolean iteration() {
         return this.iteration;
     }
 
-    public boolean checkClusterPoint(List<Point> pl1, List<Point> pl2) {
+    @Deprecated
+    private boolean checkClusterPoint(List<Point> pl1, List<Point> pl2) {
         return pl1.containsAll(pl2);
     }
 
@@ -280,8 +284,7 @@ public class KmeansServiceImpl implements KmeansService {
      * @param p2
      * @return
      */
-    @Override
-    public Double distance(Point p1, Point p2) {
+    private Double distance(Point p1, Point p2) {
         return Math.sqrt(Math.abs((p1.getX() - p2.getX()) * (p1.getX() - p2.getX()) + ((p1.getY() - p2.getY()) * (p1.getY() - p2.getY()))));
     }
 
@@ -290,8 +293,10 @@ public class KmeansServiceImpl implements KmeansService {
      *
      * @return
      */
-    @Override
-    public boolean saveCluster2db() {
+    private boolean saveCluster2db() {
+        if (!this.save2db) {
+            return false;
+        }
         Snowflake snowflake = IdUtil.createSnowflake(1, 1);
         clusters.forEach(cluster -> {
             cluster.getData().forEach(point -> {
@@ -319,93 +324,57 @@ public class KmeansServiceImpl implements KmeansService {
         return NumberUtil.round(distortions, 0).doubleValue();
     }
 
-    @Async
-    @Override
-    public void kmeans(int k, List<Point> data, boolean save2db) {
-        log.info("=================K-means start====================");
-        Double min = Double.MAX_VALUE;
-        boolean canIterator = true;
-        int count = 0;
-        Set<Cluster> clusters = new HashSet<>();
-        while(canIterator){
-            //  初始化簇的数目K 选出K个中心点
-            init(k, data, false);
-            //开始执行kmeans聚类
-            run();
-            //暂存结果
-            clusters = getClusters();
-            //迭代次数
-            int var1 = getCountIteration().intValue();
-            count = count + var1;
-            //畸变程度
-            Double distortions = getDistortions();
-            if (distortions.doubleValue() == min.doubleValue()) {
-                this.clusters = clusters;
-                log.info("best-cluster:{}", clusters);
-                log.info(">>>>>值：{} 迭代次数：{} 最小畸变:{}<<<<<", k, count, min);
-                log.info("=============K-means finish=======================");
-                canIterator = false;
-
-            }
-            if (distortions.doubleValue() < min) {
-                min = distortions;
-                clusters =  cloneClusterSet(this.clusters);
-            }
-            log.info("K值：{} 迭代次数：{} 畸变程度:{}", k, var1, distortions);
-        }
-
-//        do {
-//            //  初始化簇的数目K 选出K个中心点
-//            init(k, data, false);
-//            //开始执行kmeans聚类
-//            run();
-//            //暂存结果
-//            clusters = getClusters();
-//            //迭代次数
-//            int var1 = getCountIteration().intValue();
-//            count = count + var1;
-//            //畸变程度
-//            Double distortions = getDistortions();
-//            if (distortions.doubleValue() == min) {
-//                log.info("best-cluster:{}", this.clusters);
-//                log.info(">>>>>值：{} 迭代次数：{} 畸变程度:{}<<<<<", k, count, min);
-//                this.clusters = clusters;
-//                log.info("=============K-means finish=======================");
-//                canIterator = false;
-//
-//            }
-//            if (distortions.doubleValue() < min) {
-//                min = distortions;
-//                clusters = this.clusters;
-//            }
-//            log.info("K值：{} 迭代次数：{} 畸变程度:{}", k, var1, distortions);
-//        } while (canIterator);
-//        log.info(">>>>>值：{} 迭代次数：{} 畸变程度:{}<<<<<", k, count, min);
-
-    }
-
     @Override
     public Double getDistortions() {
         return this.distortions;
     }
 
-    @Override
-    public List<Point> getClusterPoints() {
+    private int saveDistortion(Distortion distortion) {
+        if (!this.save2db) {
+            return 0;
+        }
+        return distortionMapper.insert(distortion);
+    }
+
+    /**
+     * 实现point对象列表的深拷贝
+     *
+     * @param data
+     * @return
+     */
+    private List<Point> clonePointList(List<Point> data) {
+        List<Point> res = new ArrayList<>();
+        data.forEach(point -> {
+            try {
+                res.add(point.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        });
+        return res;
+    }
+
+    private Set<Cluster> cloneClusterSet(Set<Cluster> clusters) {
+        Set<Cluster> var1 = new HashSet<Cluster>(0);
+        clusters.forEach(cluster -> {
+            var1.add(ObjectUtil.clone(cluster));
+        });
+        return var1;
+    }
+
+    private List<Point> getClusterPoints() {
         return clusterPoints;
     }
 
-    @Override
-    public void setClusterPoints(List<Point> clusterPoints) {
+    private void setClusterPoints(List<Point> clusterPoints) {
         this.clusterPoints = clusterPoints;
     }
 
-    @Override
-    public List<Point> getData() {
+    private List<Point> getData() {
         return data;
     }
 
-    @Override
-    public void setData(List<Point> data) {
+    private void setData(List<Point> data) {
         this.data = data;
     }
 
