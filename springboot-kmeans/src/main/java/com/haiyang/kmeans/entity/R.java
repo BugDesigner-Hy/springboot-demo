@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.haiyang.kmeans.util;
+package com.haiyang.kmeans.entity;
 
 
 

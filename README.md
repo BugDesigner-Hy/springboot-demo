@@ -20,5 +20,7 @@ spring boot 实践学习案例
         <module>springboot-kmeans</module>
         <!--hutool工具包使用-->
         <module>springboot-hutool</module>
+        <!--webFlux 异步非阻塞-->
+        <module>springboot-webflux</module>
     </modules>
 ```

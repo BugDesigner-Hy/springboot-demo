@@ -1,15 +1,15 @@
-package com.haiyang.kmeans.service;/**
+package com.haiyang.kmeans.service.impl;/**
  * @Author: HaiYang
  * @Date: 2020/4/17 11:35
  */
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.haiyang.kmeans.entity.Point;
 import com.haiyang.kmeans.entity.YyOrder;
 import com.haiyang.kmeans.mapper.YyOrderMapper;
-import com.haiyang.kmeans.util.Period;
+import com.haiyang.kmeans.service.DataService;
+import com.haiyang.kmeans.entity.Period;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
 import java.util.*;
 
 /**

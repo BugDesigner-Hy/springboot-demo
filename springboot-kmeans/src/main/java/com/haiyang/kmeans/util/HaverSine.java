@@ -1,4 +1,4 @@
-package com.haiyang.kmeans.service;/**
+package com.haiyang.kmeans.util;/**
  * @Author: HaiYang
  * @Date: 2020/4/16 14:41
  */

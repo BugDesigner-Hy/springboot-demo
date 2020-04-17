@@ -1,4 +1,4 @@
-package com.haiyang.kmeans.service;/**
+package com.haiyang.kmeans.service.impl;/**
  * @Author: HaiYang
  * @Date: 2020/4/10 14:44
  */
@@ -15,8 +15,10 @@ import com.haiyang.kmeans.entity.Point;
 import com.haiyang.kmeans.mapper.ClusterMapper;
 import com.haiyang.kmeans.mapper.DistortionMapper;
 import com.haiyang.kmeans.mapper.PointMapper;
-import com.haiyang.kmeans.mapper.YyOrderMapper;
-import com.haiyang.kmeans.util.DistanceType;
+import com.haiyang.kmeans.service.DataService;
+import com.haiyang.kmeans.util.HaverSine;
+import com.haiyang.kmeans.service.KmeansService;
+import com.haiyang.kmeans.entity.DistanceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

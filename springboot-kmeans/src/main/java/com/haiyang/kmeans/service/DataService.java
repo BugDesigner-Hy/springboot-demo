@@ -1,7 +1,7 @@
 package com.haiyang.kmeans.service;
 
 import com.haiyang.kmeans.entity.Point;
-import com.haiyang.kmeans.util.Period;
+import com.haiyang.kmeans.entity.Period;
 
 import java.util.List;
 

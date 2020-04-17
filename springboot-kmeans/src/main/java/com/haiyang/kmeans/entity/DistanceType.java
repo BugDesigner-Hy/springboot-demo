@@ -1,4 +1,4 @@
-package com.haiyang.kmeans.util;
+package com.haiyang.kmeans.entity;
 
 /**
  * @Author: HaiYang

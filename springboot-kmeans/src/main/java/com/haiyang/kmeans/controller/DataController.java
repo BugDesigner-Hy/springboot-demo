@@ -3,25 +3,25 @@ package com.haiyang.kmeans.controller;/**
  * @Date: 2020/4/10 14:37
  */
 
-import com.haiyang.kmeans.service.DataService;
-import com.haiyang.kmeans.util.Period;
-import com.haiyang.kmeans.util.R;
 import com.haiyang.kmeans.entity.Cluster;
 import com.haiyang.kmeans.entity.Distortion;
 import com.haiyang.kmeans.entity.Point;
-import com.haiyang.kmeans.mapper.PointMapper;
+import com.haiyang.kmeans.service.DataService;
 import com.haiyang.kmeans.service.KmeansService;
+import com.haiyang.kmeans.entity.Period;
+import com.haiyang.kmeans.entity.R;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author: Administrator
