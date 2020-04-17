@@ -3,7 +3,6 @@ package com.haiyang.hutool.core;/**
  * @Date: 2020/4/13 14:54
  */
 
-import cn.hutool.core.util.HashUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
 
@@ -22,6 +21,7 @@ public class StrTest {
 
         String execStr = RuntimeUtil.execForStr("ipconfig");
         System.out.println("exec = " + execStr.toString());
+
     }
 
 }

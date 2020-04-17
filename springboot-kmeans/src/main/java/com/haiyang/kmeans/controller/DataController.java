@@ -3,22 +3,25 @@ package com.haiyang.kmeans.controller;/**
  * @Date: 2020/4/10 14:37
  */
 
-import cn.hutool.core.util.NumberUtil;
+import com.haiyang.kmeans.service.DataService;
+import com.haiyang.kmeans.util.Period;
+import com.haiyang.kmeans.util.R;
 import com.haiyang.kmeans.entity.Cluster;
+import com.haiyang.kmeans.entity.Distortion;
 import com.haiyang.kmeans.entity.Point;
 import com.haiyang.kmeans.mapper.PointMapper;
 import com.haiyang.kmeans.service.KmeansService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author: Administrator
@@ -26,6 +29,8 @@ import java.util.Set;
  * @Description:
  */
 @Slf4j
+@CrossOrigin("*")
+@Api(value = "K-Means Api", tags = "K-Means Api")
 @RestController
 public class DataController {
 
@@ -33,18 +38,46 @@ public class DataController {
     KmeansService kmeansService;
 
     @Resource
-    PointMapper pointMapper;
+    DataService dataService;
 
-    @GetMapping("/kmeans/{k}")
-    public Boolean kmeans(@PathVariable("k") int k) {
-
-        List<Point> data = pointMapper.selectList(null);
-        kmeansService.kmeans(k, data, false);
-        return Boolean.TRUE;
+    @PostMapping("/clusters")
+    public R getClusters(@RequestParam int k,
+                         @RequestParam String cityCode,
+                         @RequestParam String dateStr,
+                         @RequestParam Period period) {
+        Long dataId = dataService.genDataId(cityCode, dateStr, period);
+        Set<Cluster> clusters = kmeansService.getClusters(k, dataId);
+        return R.ok().put("status", 20000).put("data", clusters);
     }
 
-    @GetMapping("/clusters")
-    public Set<Cluster> getClusters(){
-        return kmeansService.getClusters();
+    @PostMapping("/k-line")
+    public R getKLine(@RequestParam String cityCode,
+                      @RequestParam String dateStr,
+                      @RequestParam Period period) {
+        Long dataId = dataService.genDataId(cityCode, dateStr, period);
+        List<Distortion> res = kmeansService.getKLine(dataId);
+        return R.ok().put("status", 20000).put("data", res);
+    }
+
+    @PostMapping("/kmeans/best-k")
+    public R bestK(
+            @RequestParam String cityCode,
+            @RequestParam String dateStr,
+            @RequestParam Period period
+    ) {
+        Long dataId = dataService.genDataId(cityCode, dateStr, period);
+        int bestK = kmeansService.bestK(dataId);
+        return R.ok().put("status", 20000).put("data", bestK);
+    }
+
+    @Async
+    @PostMapping("/kmeans/city")
+    public R kmeans(@RequestParam int k, @RequestParam String cityCode, @RequestParam String dateStr, @RequestParam Period period) {
+        List<Point> data = dataService.getPointsByCityAndDateAndPeriod(cityCode, dateStr, period);
+        Long dataId = dataService.genDataId(cityCode, dateStr, period);
+        for (int i = 2; i <= k; i++) {
+            kmeansService.kmeans(i, data, true, dataId);
+        }
+        return R.ok().put("status", 20000);
     }
 }

@@ -14,51 +14,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public interface KmeansService {
 
-//    boolean fit();
-
-    void kmeans(int k, List<Point> data, boolean save2db);
-
-//    boolean iteration();
-
-//    boolean saveCluster2db();
+    void kmeans(int k, List<Point> data, boolean save2db, Long dataId);
 
     Set<Cluster> getClusters();
 
-//    List<Point> genNewClusterPoint();
-
-//    Double distance(Point p1,Point p2);
-
-//    void init(int k,List<Point> data);
-
-//    void init(int k,List<Point> data,boolean save2db);
-
-//    void init(int k,List<Point> data,List<Point> clusterPoints);
-
-//    void init(int k,List<Point> data,List<Point> clusterPoints,boolean save2db);
-
-//    List<Point> getData();
-
-//    void setData(List<Point> data);
-
     AtomicInteger getCountIteration();
-
-//    List<Point> getClusterPoints();
-
-//    void setClusterPoints(List<Point> clusterPoints);
-
-//    Set<Cluster> genClusters();
-
-//    boolean checkClusterPoint(List<Point> pl1,List<Point> pl2);
 
     Double getDistortions();
 
-//    int saveDistortion(Distortion distortion);
+    Set<Cluster> getClusters(int k,Long dataId);
 
+    List<Distortion> getKLine(Long dataId);
 
-
-
-
-
+    int bestK(Long dataId);
 
 
 }

@@ -6,11 +6,12 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author haiyang
@@ -19,11 +20,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Point implements Serializable,Cloneable {
+@NoArgsConstructor
+public class Point implements Serializable, Cloneable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Long id;
 
     private Double x;
 
@@ -50,6 +52,6 @@ public class Point implements Serializable,Cloneable {
 
     @Override
     public Point clone() throws CloneNotSupportedException {
-        return (Point)super.clone();
+        return (Point) super.clone();
     }
 }

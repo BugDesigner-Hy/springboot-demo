@@ -16,4 +16,6 @@ public class Distortion {
     private int iteration;
 
     private Double distortions;
+
+    private Long dataId;
 }

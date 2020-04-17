@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author haiyang
@@ -22,18 +22,21 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Cluster implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    @TableId
-    private Long id;
+//    @TableId
+//    private Long id;
 
     private Double x;
 
     private Double y;
 
-    private int pointId;
+    private String pointId;
 
     private int k;
+
+    //数据集标识
+    private Long dataId;
 
     @TableField(exist = false)
     private Point clusterPoint;
