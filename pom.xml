@@ -19,6 +19,9 @@
         <module>springboot-kmeans</module>
         <module>springboot-hutool</module>
         <module>springboot-guava</module>
+        <module>springboot-netty-server</module>
+        <module>springboot-netty-client</module>
+        <module>springboot-netty-chat</module>
     </modules>
 
     <properties>
