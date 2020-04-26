@@ -5,6 +5,8 @@ package com.haiyang.kmeans.controller;/**
 
 import com.haiyang.kmeans.entity.Point;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +17,10 @@ import java.util.List;
  */
 public class test {
     public static void main(String[] args) {
-        Point p1 = new Point(1D,2D);
-        Point p2 = new Point(3D,4D);
-
-        List<Point> a = null;
-//        a.add(p1);
-//        a.add(p2);
-        List<Point> b = new ArrayList<>();
-        b.add(p2);
-        b.add(p1);
-
-        System.out.println("a = b" + (b.containsAll(a)));
+        LocalDate localDate = LocalDate.parse("20200415", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        System.out.println("localDate.getDayOfMonth() = " + localDate.lengthOfMonth());
+        System.out.println("localDate.getMonthValue() = " + localDate.getMonthValue());
+        System.out.println("localDate.getDayOfWeek().getValue() = " + localDate.getDayOfWeek().getValue());
 
     }
 }

@@ -32,11 +32,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/springboot-slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
+        dsc.setUrl("jdbc:mysql://xxxxx:3306/yy_callback?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setUsername("xxxx");
+        dsc.setPassword("xxxx");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -52,7 +52,7 @@ public class CodeGenerator {
 //        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(false);
-        strategy.setInclude("sys_log");
+        strategy.setInclude("yy_order");
 
         mpg.setStrategy(strategy);
         mpg.execute();

@@ -10,6 +10,9 @@ package com.haiyang.kmeans.util;/**
  */
 public class HaverSine {
 
+    private HaverSine() {
+    }
+
     static double EARTH_RADIUS = 6371.0;//km 地球半径 平均值，千米
 
     private static double HaverSin(double theta) {

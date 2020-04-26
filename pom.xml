@@ -18,6 +18,7 @@
         <module>springboot-oauth</module>
         <module>springboot-kmeans</module>
         <module>springboot-hutool</module>
+        <module>springboot-guava</module>
     </modules>
 
     <properties>
