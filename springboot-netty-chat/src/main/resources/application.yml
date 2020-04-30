@@ -8,3 +8,14 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     username: root
     password: root
+
+#  配置xml扫描路径
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+
+netty:
+  port: 8090    #监听端口
+  bossThread: 2 #线程数
+  workerThread: 2 #线程数
+  keepalive: true #保持连接
+  backlog: 100

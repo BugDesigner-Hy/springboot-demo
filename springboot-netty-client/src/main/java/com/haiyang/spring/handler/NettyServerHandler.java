@@ -5,6 +5,7 @@ package com.haiyang.spring.handler;/**
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,10 +14,17 @@ import lombok.extern.slf4j.Slf4j;
  * @Description:
  */
 @Slf4j
-public class NettyServerHandler extends SimpleChannelInboundHandler {
+public class NettyServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("收到服务端的信息:{}",msg);
+    protected void messageReceived(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame msg) throws Exception {
+        log.info("messageReceived:{}",msg.text());
+    }
+
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        log.info("channelRead:{}",msg.toString());
     }
 
     @Override

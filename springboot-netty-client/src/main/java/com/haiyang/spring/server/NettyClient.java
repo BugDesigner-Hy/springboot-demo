@@ -10,6 +10,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,14 +27,15 @@ public class NettyClient {
                 .group(group)
                 //该参数的作用就是禁止使用Nagle算法，使用于小数据即时传输
                 .option(ChannelOption.TCP_NODELAY, true)
+//                .option(ChannelOption.SO_KEEPALIVE,true)
                 .channel(NioSocketChannel.class)
                 .handler(new NettyClientInitializer());
 
         try {
-            ChannelFuture future = bootstrap.connect("127.0.0.1", 8083).sync();
+            ChannelFuture future = bootstrap.connect("127.0.0.1", 8090).sync();
             log.info("connect success");
             //发送消息
-            future.channel().writeAndFlush("你好啊");
+            future.channel().writeAndFlush(new TextWebSocketFrame("你好啊"));
             // 等待连接被关闭
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {

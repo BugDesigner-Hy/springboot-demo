@@ -35,7 +35,8 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<Point> getPointsByCityAndDateAndPeriod(String cityCode, String dateStr, Period period) {
         Map<String,Long> dateQuery = getTimestamps(dateStr, period);
-        List<YyOrder> orders = yyOrderMapper.selectList(new QueryWrapper<YyOrder>().eq("city_code", cityCode).between("timestamp", dateQuery.get("begin"),dateQuery.get("end")));
+        QueryWrapper<YyOrder> wrapper = new QueryWrapper<YyOrder>().select("order_id,slon,slat,id").eq("city_code", cityCode).between("timestamp", dateQuery.get("begin"), dateQuery.get("end")).groupBy("order_id,slon,slat");
+        List<YyOrder> orders = yyOrderMapper.selectList(wrapper);
         List<Point> pointsUnsafe = new ArrayList<>();
         List<Point> pointsSafe = Collections.synchronizedList(pointsUnsafe);
         orders.parallelStream().forEach(order -> {
@@ -50,12 +51,14 @@ public class DataServiceImpl implements DataService {
 
     private Map<String,Long> getTimestamps(String dateStr, Period period) {
         HashMap<String,Long> map = new HashMap<>(2);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        LocalDateTime date = LocalDate.parse(dateStr, formatter).atStartOfDay();
-        LocalDateTime beginDate = date.plus(period.getBegin(), ChronoUnit.MILLIS);
-        LocalDateTime endDate = date.plus(period.getEnd(), ChronoUnit.MILLIS);
-        map.put("begin",beginDate.toInstant(ZoneOffset.of("+8")).toEpochMilli());
-        map.put("end",endDate.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+//        LocalDateTime date = LocalDate.parse(dateStr, formatter).atStartOfDay();
+//        LocalDateTime beginDate = date.plus(period.getBegin(), ChronoUnit.MILLIS);
+//        LocalDateTime endDate = date.plus(period.getEnd(), ChronoUnit.MILLIS);
+//        map.put("begin",beginDate.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+//        map.put("end",endDate.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        map.put("begin",Long.valueOf(1586620800000L) );
+        map.put("end",Long.valueOf(1587830399000L) );
         return map;
     }
 

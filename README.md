@@ -22,5 +22,15 @@ spring boot 实践学习案例
         <module>springboot-hutool</module>
         <!--webFlux 异步非阻塞-->
         <module>springboot-webflux</module>
+        <!--google guava工具包使用-->
+        <module>springboot-guava</module>
+        <!--netty异步通信框架 服务端-->
+        <module>springboot-netty-server</module>
+        <!--netty异步通信框架 客户端-->
+        <module>springboot-netty-client</module>
+        <!--使用netty编写的简单聊天室-->
+        <module>springboot-netty-chat</module>
+        <!--阿里出品的excel下载工具-->
+        <module>springboot-easyexcel</module>
     </modules>
 ```

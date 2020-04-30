@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haiyang.kmeans.mapper.ClusterMapper">
 
+    <select id="getDistinctData" resultType="com.haiyang.kmeans.entity.Cluster">
+        select  order_id,slon,slat,id from yy_order
+        where `timestamp` BETWEEN 1586620800000 and 1587830399000 and city_code = '029'
+        group by order_id,slon,slat
+        having count(1)>=1
+    </select>
 </mapper>

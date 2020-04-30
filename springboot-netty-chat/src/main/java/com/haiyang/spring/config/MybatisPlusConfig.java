@@ -1,4 +1,4 @@
-package com.haiyang.config;/**
+package com.haiyang.spring.config;/**
  * @Author: HaiYang
  * @Date: 2020/4/3 15:03
  */

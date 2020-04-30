@@ -3,13 +3,9 @@ package com.haiyang.kmeans.controller;/**
  * @Date: 2020/4/10 14:37
  */
 
-import com.haiyang.kmeans.entity.Cluster;
-import com.haiyang.kmeans.entity.Distortion;
-import com.haiyang.kmeans.entity.Point;
+import com.haiyang.kmeans.entity.*;
 import com.haiyang.kmeans.service.DataService;
 import com.haiyang.kmeans.service.KmeansService;
-import com.haiyang.kmeans.entity.Period;
-import com.haiyang.kmeans.entity.R;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author: Administrator
@@ -46,7 +43,7 @@ public class DataController {
                          @RequestParam String dateStr,
                          @RequestParam Period period) {
         Long dataId = dataService.genDataId(cityCode, dateStr, period);
-        Set<Cluster> clusters = kmeansService.getClusters(k, dataId);
+        List<Cluster> clusters = kmeansService.getClusters(k, dataId);
         return R.ok().put("status", 20000).put("data", clusters);
     }
 
@@ -72,11 +69,14 @@ public class DataController {
 
     @Async
     @PostMapping("/kmeans/city")
-    public R kmeans(@RequestParam int k, @RequestParam String cityCode, @RequestParam String dateStr, @RequestParam Period period) {
+    public R kmeans(@RequestParam int k1, @RequestParam int k2, @RequestParam String cityCode, @RequestParam String dateStr, @RequestParam Period period) {
         List<Point> data = dataService.getPointsByCityAndDateAndPeriod(cityCode, dateStr, period);
+        log.info("data.size:{}", data.size());
         Long dataId = dataService.genDataId(cityCode, dateStr, period);
-        for (int i = 2; i <= k; i++) {
-            kmeansService.kmeans(i, data, true, dataId);
+        ExecutorService threadPool = Executors.newFixedThreadPool(10);
+        for (int i = k1; i <= k2; i++) {
+            int finalI = i;
+            threadPool.execute(() -> kmeansService.kmeans(finalI, data, true, dataId));
         }
         return R.ok().put("status", 20000);
     }

@@ -22,7 +22,7 @@ public interface KmeansService {
 
     Double getDistortions();
 
-    Set<Cluster> getClusters(int k,Long dataId);
+    List<Cluster> getClusters(int k,Long dataId);
 
     List<Distortion> getKLine(Long dataId);
 

@@ -38,6 +38,10 @@ public class Cluster implements Serializable {
     //数据集标识
     private Long dataId;
 
+    private int avg;
+
+    private int count;
+
     @TableField(exist = false)
     private Point clusterPoint;
 

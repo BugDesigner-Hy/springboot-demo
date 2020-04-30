@@ -21,10 +21,10 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         slave:
-          username: xxxxx
-          password: xxxxx
+          username: root
+          password: xxx
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://xxxxx:3306/yy_callback?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/yy_callback?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
 
 #  配置xml扫描路径
 mybatis-plus:
