@@ -30,7 +30,7 @@ spring boot 实践学习案例
         <module>springboot-netty-client</module>
         <!--使用netty编写的简单聊天室-->
         <module>springboot-netty-chat</module>
-        <!--阿里出品的excel下载工具-->
-        <module>springboot-easyexcel</module>
+        <!--批处理batch-->
+        <module>springboot-batch</module>
     </modules>
 ```

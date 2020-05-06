@@ -24,6 +24,7 @@
         <module>springboot-netty-chat</module>
         <module>springboot-easyexcel</module>
         <module>springboot-webflux</module>
+        <module>springboot-batch</module>
     </modules>
 
     <properties>
