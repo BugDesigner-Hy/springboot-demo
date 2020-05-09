@@ -10,4 +10,8 @@ spring:
       password: root
   batch:
     initialize-schema: always
+#    job:
+#      enabled: false
+#    job:
+#      names: parentJob
 #    schema: org/springframework/batch/core/schema-mysql.sql
