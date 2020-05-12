@@ -32,5 +32,9 @@ spring boot 实践学习案例
         <module>springboot-netty-chat</module>
         <!--批处理batch-->
         <module>springboot-batch</module>
+        <!--redis-->
+        <module>springboot-redis</module>
+        <!--mongodb-->
+        <module>springboot-mongodb</module>
     </modules>
 ```

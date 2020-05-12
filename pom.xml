@@ -25,6 +25,8 @@
         <module>springboot-easyexcel</module>
         <module>springboot-webflux</module>
         <module>springboot-batch</module>
+        <module>springboot-redis</module>
+        <module>springboot-mongodb</module>
     </modules>
 
     <properties>
