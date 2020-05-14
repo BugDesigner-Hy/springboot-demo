@@ -36,5 +36,7 @@ spring boot 实践学习案例
         <module>springboot-redis</module>
         <!--mongodb-->
         <module>springboot-mongodb</module>
+        <!--分库分表-->
+        <module>springboot-sharding-jdbc</module>
     </modules>
 ```
