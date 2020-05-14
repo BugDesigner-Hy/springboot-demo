@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haiyang.kmeans.mapper.YyOrderMapper">
 
+    <select id="getchengdu" resultType="com.haiyang.kmeans.entity.YyOrder">
+        select driver_number,slon,slat from yy_order where city_code = '028' and `timestamp` &gt;= 1589040000000 and `timestamp` &lt;= 1589299199000
+        and driver_number is not null GROUP BY driver_number;
+    </select>
 </mapper>

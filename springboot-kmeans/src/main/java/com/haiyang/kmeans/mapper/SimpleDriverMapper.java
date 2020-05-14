@@ -14,8 +14,7 @@ import java.util.List;
  * @author haiyang
  * @since 2020-04-17
  */
-public interface YyOrderMapper extends BaseMapper<YyOrder> {
-
+public interface SimpleDriverMapper extends BaseMapper<SimpleDriver> {
 
     List<YyOrder> getchengdu();
 }

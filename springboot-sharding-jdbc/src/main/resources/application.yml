@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+#  配置xml扫描路径
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+
+sharding:
+  jdbc:
+    datasource:
+      names: db0,db1
+      db0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/db0?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+      db1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/db1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+    config:
+      sharding:
+        props:
+          sql.show: true
+        tables:
+          user:
+            key-generator-column-name: id  #主键
+            actual-data-nodes: db${0..1}.user${0..1}    #数据节点,均匀分布
+            database-strategy:   #分库策略
+              inline: #行表达式
+                sharding-column: age        #列名称，多个列以逗号分隔
+                algorithm-expression: db${age % 2}    #按模运算分配
+            table-strategy:  #分表策略
+              inline: #行表达式
+                sharding-column: id
+                algorithm-expression: user${id % 2}
+spring:
+  main:
+    allow-bean-definition-overriding: true
