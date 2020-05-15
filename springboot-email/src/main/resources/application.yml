@@ -1,0 +1,9 @@
+erver:
+  port: 8080
+
+spring:
+  mail:
+    host: smtp.mxhichina.com
+    username: xxx@xxx.co
+    password: xxx
+#    test-connection: true

@@ -28,6 +28,7 @@
         <module>springboot-redis</module>
         <module>springboot-mongodb</module>
         <module>springboot-sharding-jdbc</module>
+        <module>springboot-email</module>
     </modules>
 
     <properties>

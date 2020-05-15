@@ -38,5 +38,7 @@ spring boot 实践学习案例
         <module>springboot-mongodb</module>
         <!--分库分表-->
         <module>springboot-sharding-jdbc</module>
+        <!--发送邮件-->
+        <module>springboot-email</module>
     </modules>
 ```
