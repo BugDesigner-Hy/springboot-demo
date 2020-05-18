@@ -40,5 +40,7 @@ spring boot 实践学习案例
         <module>springboot-sharding-jdbc</module>
         <!--发送邮件-->
         <module>springboot-email</module>
+        <!--图关系数据库-->
+        <module>springboot-neo4j</module>
     </modules>
 ```
