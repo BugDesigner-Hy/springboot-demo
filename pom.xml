@@ -32,6 +32,7 @@
         <module>springboot-neo4j</module>
         <module>springboot-session</module>
         <module>springboot-devtools</module>
+        <module>springboot-configuration-processor</module>
     </modules>
 
     <properties>

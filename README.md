@@ -46,5 +46,7 @@ spring boot 实践学习案例
         <module>springboot-session</module>
         <!--程序热启动配置-->
         <module>springboot-devtools</module>
+        <!--spring-configuration-->
+        <module>springboot-configuration-processor</module>
     </modules>
 ```
