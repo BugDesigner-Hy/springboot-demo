@@ -42,5 +42,7 @@ spring boot 实践学习案例
         <module>springboot-email</module>
         <!--图关系数据库-->
         <module>springboot-neo4j</module>
+        <!--spring-session session存储管理-->
+        <module>springboot-session</module>
     </modules>
 ```

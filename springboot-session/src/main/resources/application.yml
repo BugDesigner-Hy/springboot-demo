@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-redis
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    host: 47.104.102.96
+    port: 6379
+    password: 123456
+#    # 连接超时时间（毫秒）
+#    timeout: 1000
+#    # 在 Spring Boot 2.x 以后底层不再使用 Jedis，而是换成了 Lettuce。
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        max-wait: -1
+#        min-idle: 0
+  session:
+    store-type: redis
+#    失效 秒
+    timeout: 20
+    redis:
+      namespace: tuotuo.user
+
+
