@@ -31,6 +31,7 @@
         <module>springboot-email</module>
         <module>springboot-neo4j</module>
         <module>springboot-session</module>
+        <module>springboot-devtools</module>
     </modules>
 
     <properties>

@@ -20,10 +20,12 @@ spring:
 #        max-wait: -1
 #        min-idle: 0
   session:
+#    none就是单机版 禁用了spring-session功能
     store-type: redis
-#    失效 秒
-    timeout: 20
+#    失效 单位:秒
+    timeout: 60
     redis:
+#      命名空间
       namespace: tuotuo.user
 
 

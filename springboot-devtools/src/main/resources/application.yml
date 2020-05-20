@@ -1,0 +1,11 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    remote:
+      restart:
+        #热部署生效
+        enabled: true
+    #设置重启的目录
+    restart:
+      additional-paths: src/main/java

@@ -44,5 +44,7 @@ spring boot 实践学习案例
         <module>springboot-neo4j</module>
         <!--spring-session session存储管理-->
         <module>springboot-session</module>
+        <!--程序热启动配置-->
+        <module>springboot-devtools</module>
     </modules>
 ```
