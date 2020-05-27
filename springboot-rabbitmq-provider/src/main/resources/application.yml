@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: rabbitmq-provider
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    #虚拟host 相当于数据库db
+    virtual-host: orders
+      #    消息确认配置项
+      #    确认信息发送到交换机类型
+    publisher-confirm-type: simple
+      #    确认消息发送到队列
+    publisher-returns: true

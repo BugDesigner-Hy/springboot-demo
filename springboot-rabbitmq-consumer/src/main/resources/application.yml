@@ -1,0 +1,32 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: rabbitmq-consumer
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: orders
+    #    消息确认配置项
+    #    确认信息发送到交换机类型
+    publisher-confirm-type: simple
+    #    确认消息发送到队列
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual #手动确认
+        prefetch: 1 #限制每次发送一条数据
+        concurrency: 3 #同一个队列启动几个消费者
+        max-concurrency: 3 #启动消费者最大数量
+        #重试策略相关配置
+        retry:
+          enabled: true
+          max-attempts: 3
+          stateless: false
+          #时间策略乘数因子
+          multiplier: 1.0
+          initial-interval: 1000
+          max-interval: 10000
+        default-requeue-rejected: true
