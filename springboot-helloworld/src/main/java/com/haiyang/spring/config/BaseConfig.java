@@ -3,10 +3,20 @@ package com.haiyang.spring.config;/**
  * @Date: 2020/6/4 15:39
  */
 
+import com.haiyang.spring.bean.Student;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * @author: Administrator
  * @Date: 2020/6/4 15:39
  * @Description:
  */
-public class baseConfig {
+@Configuration
+public class BaseConfig {
+
+    @Bean
+    public Student student(){
+        return new Student(1,"haiyang");
+    }
 }

@@ -3,6 +3,7 @@ package com.haiyang.spring.config;/**
  * @Date: 2020/6/18 11:45
  */
 
+import com.haiyang.spring.entity.Cat;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
@@ -10,5 +11,19 @@ import org.springframework.beans.factory.FactoryBean;
  * @Date: 2020/6/18 11:45
  * @Description:
  */
-public class MyFactoryBean implements FactoryBean<Cat> {
+public class CatFactoryBean implements FactoryBean<Cat> {
+    @Override
+    public Cat getObject() throws Exception {
+        return new Cat();
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return Cat.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return false;
+    }
 }

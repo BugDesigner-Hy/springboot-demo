@@ -48,5 +48,13 @@ spring boot 实践学习案例
         <module>springboot-devtools</module>
         <!--spring-configuration-->
         <module>springboot-configuration-processor</module>
+        <!--rabbitmq消息消费者-->
+        <module>springboot-rabbitmq-consumer</module>
+        <!--rabbitmq消息生产者-->
+        <module>springboot-rabbitmq-provider</module>
+        <!--搜索和分析引擎elasticsearch-->
+        <module>springboot-elasticsearch</module>
+        <!--spring注解相关知识-->
+        <module>springboot-annotation</module>
     </modules>
 ```

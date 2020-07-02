@@ -1,20 +1,18 @@
-package com.xkcoding.elasticsearch.repository;
+package com.haiyang.spring.repository;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONUtil;
-import com.google.common.collect.Lists;
-import com.xkcoding.elasticsearch.SpringBootDemoElasticsearchApplicationTests;
-import com.xkcoding.elasticsearch.model.Person;
+import com.haiyang.spring.entity.Person;
+import com.haiyang.spring.SpringbootElasticsearchApplication;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.Lists;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.elasticsearch.search.aggregations.metrics.avg.InternalAvg;
+import org.elasticsearch.search.aggregations.metrics.InternalAvg;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,25 +20,14 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * <p>
- * 测试 Repository 操作ES
- * </p>
- *
- * @package: com.xkcoding.elasticsearch.repository
- * @description: 测试 Repository 操作ES
- * @author: yangkai.shen
- * @date: Created in 2018-12-20 19:03
- * @copyright: Copyright (c) 2018
- * @version: V1.0
- * @modified: yangkai.shen
- */
 @Slf4j
-public class PersonRepositoryTest extends SpringBootDemoElasticsearchApplicationTests {
-    @Autowired
-    private PersonRepository repo;
+public class PersonRepositoryTest extends SpringbootElasticsearchApplication {
+
+    @Resource
+    PersonRepository repo;
 
     /**
      * 测试新增
@@ -98,7 +85,7 @@ public class PersonRepositoryTest extends SpringBootDemoElasticsearchApplication
     @Test
     public void select() {
         repo.findAll(Sort.by(Sort.Direction.DESC, "birthday"))
-                .forEach(person -> log.info("{} 生日: {}", person.getName(), DateUtil.formatDateTime(person.getBirthday())));
+                .forEach(person -> log.info("{} 生日: {}", person.getName(), person.getBirthday()));
     }
 
     /**
@@ -153,7 +140,7 @@ public class PersonRepositoryTest extends SpringBootDemoElasticsearchApplication
         // 平均年龄
         queryBuilder.addAggregation(AggregationBuilders.avg("avg").field("age"));
 
-        log.info("【queryBuilder】= {}", JSONUtil.toJsonStr(queryBuilder.build()));
+        log.info("【queryBuilder】= {}", queryBuilder.build());
 
         AggregatedPage<Person> people = (AggregatedPage<Person>) repo.search(queryBuilder.build());
         double avgAge = ((InternalAvg) people.getAggregation("avg")).getValue();
@@ -175,7 +162,7 @@ public class PersonRepositoryTest extends SpringBootDemoElasticsearchApplication
                 // 2. 在国家聚合桶内进行嵌套聚合，求平均年龄
                 .subAggregation(AggregationBuilders.avg("avg").field("age")));
 
-        log.info("【queryBuilder】= {}", JSONUtil.toJsonStr(queryBuilder.build()));
+        log.info("【queryBuilder】= {}", queryBuilder.build());
 
         // 3. 查询
         AggregatedPage<Person> people = (AggregatedPage<Person>) repo.search(queryBuilder.build());

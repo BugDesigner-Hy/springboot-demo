@@ -1,10 +1,11 @@
-package com.haiyang.repository;
+package com.haiyang.spring.repository;
 
-import com.haiyang.entity.Person;
+import com.haiyang.spring.entity.Person;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 
 /**
  * @author hy

@@ -33,6 +33,10 @@
         <module>springboot-session</module>
         <module>springboot-devtools</module>
         <module>springboot-configuration-processor</module>
+        <module>springboot-rabbitmq-consumer</module>
+        <module>springboot-rabbitmq-provider</module>
+        <module>springboot-elasticsearch</module>
+        <module>springboot-annotation</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package com.haiyang.entity;/**
+package com.haiyang.spring.entity;/**
  * @Author: HaiYang
  * @Date: 2020/5/28 9:57
  */
@@ -59,4 +59,5 @@ public class Person {
     @Field(type = FieldType.Text)
 //    @Field(type = FieldType.Text, analyzer = "ik_smart")
     private String remark;
+
 }
