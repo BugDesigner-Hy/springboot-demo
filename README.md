@@ -56,5 +56,9 @@ spring boot 实践学习案例
         <module>springboot-elasticsearch</module>
         <!--spring注解相关知识-->
         <module>springboot-annotation</module>
+        <!--shrio权限管理-->
+        <module>springboot-shrio</module>
+        <!--mybatis-plus 结合动态数据源 和 druid-->
+        <module>springbamic-datasource-druid</module>
     </modules>
 ```
