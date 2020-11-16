@@ -1,0 +1,49 @@
+server:
+  port: 9197
+  servlet:
+    context-path: "/dynamic"
+
+#多数据源配置
+spring:
+  #  DruidDataSourceAutoConfigure会注入一个DataSourceWrapper，其会在原生的spring:
+  #    datasource下找url,username,password等。动态数据源URL等配置是在dynamic下，因此需要排除，否则会报错:
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    dynamic:
+      datasource:
+        #slave:
+        #  username: root
+        #  password: TuoTuo*12345
+        #  driver-class-name: com.mysql.cj.jdbc.Driver
+        #  url: jdbc:mysql://36.103.241.211:3306/yy_callback?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        master:
+          username: root
+          password: xxxxxx
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+          url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/tt_operational_data?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      primary: master
+      druid:
+        #初始化时建立物理连接的个数
+        initial-size: 1
+        #池中最大连接数
+        max-active: 20
+        #最小空闲连接
+        min-idle: 1
+        #获取连接时最大等待时间，单位毫秒
+        max-wait: 60000
+
+#如果部署到生产环境 可设置为true来屏蔽swagger相关资源
+#knife4j:
+#  production: false
+#  配置xml扫描路径 自定义方法(XML 中有自定义实现)，需要进行该配置，告诉 Mapper 所对应的 XML 文件位置
+mybatis-plus:
+#  方法一 打印SQL详细信息到控制台
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mapper/*.xml
+#  方法二 打印SQL信息到控制台
+#logging:
+#  level:
+#    tuotuo.board.mapper: debug
