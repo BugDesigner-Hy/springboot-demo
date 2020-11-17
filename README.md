@@ -60,5 +60,8 @@ spring boot 实践学习案例
         <module>springboot-shrio</module>
         <!--mybatis-plus 结合动态数据源 和 druid-->
         <module>springbamic-datasource-druid</module>
+        <!--优雅的使用异步 多线程-->
+        <module>springboot-async</module>
+
     </modules>
 ```
